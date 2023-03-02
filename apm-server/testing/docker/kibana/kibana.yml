@@ -1,0 +1,41 @@
+server.host: 0.0.0.0
+status.allowAnonymous: true
+monitoring.ui.container.elasticsearch.enabled: true
+telemetry.enabled: false
+xpack.security.encryptionKey: fhjskloppd678ehkdfdlliverpoolfcr
+xpack.encryptedSavedObjects.encryptionKey: fhjskloppd678ehkdfdlliverpoolfcr
+
+xpack.fleet.packages:
+  - name: fleet_server
+    version: latest
+  - name: apm
+    version: latest
+xpack.fleet.agentPolicies:
+  - name: Fleet Server (APM)
+    id: fleet-server-apm
+    is_default_fleet_server: true
+    is_managed: false
+    namespace: default
+    package_policies:
+      - name: fleet_server-apm
+        id: default-fleet-server
+        package:
+          name: fleet_server
+      - name: apm-1
+        package:
+          name: apm
+        inputs:
+          - type: apm
+            keep_enabled: true
+            vars:
+              - name: host
+                value: 0.0.0.0:8200
+                frozen: true
+              - name: url
+                value: "http://0.0.0.0:8200"
+                frozen: true
+              - name: enable_rum
+                value: true
+                frozen: true
+
+xpack.profiling.enabled: true
